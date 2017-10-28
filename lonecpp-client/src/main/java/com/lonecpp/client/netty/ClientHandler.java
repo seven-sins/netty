@@ -17,6 +17,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		String ping = "ping";
 		if (ping.equals(msg.toString())) {
+			System.out.println("===========ping");
 			ctx.channel().writeAndFlush("ping\r\n");
 			return;
 		}

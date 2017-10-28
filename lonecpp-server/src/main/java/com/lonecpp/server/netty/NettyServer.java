@@ -43,6 +43,10 @@ public class NettyServer implements ApplicationListener<ContextRefreshedEvent>, 
 				protected void initChannel(SocketChannel ch)
 						throws Exception {
 					ch.pipeline().addLast(new DelimiterBasedFrameDecoder(Integer.MAX_VALUE,Delimiters.lineDelimiter()[0]));
+					/**
+					 * 60 读超时
+					 * 20 写超时
+					 */
 					ch.pipeline().addLast(new IdleStateHandler(60, 20, 15, TimeUnit.SECONDS));
 					ch.pipeline().addLast(new SimpleHandler());
 					ch.pipeline().addLast(new StringEncoder());

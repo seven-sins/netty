@@ -54,7 +54,7 @@ public class NettyClient {
 			User user = new User();
 			user.setAge(11);
 			user.setId(1);
-			user.setName("张三");
+			user.setName("maliodas");
 
 			Request request = new Request();
 			request.setCommand("userSave");
@@ -69,7 +69,6 @@ public class NettyClient {
 		} finally {
 			group.shutdownGracefully();
 		}
-
 	}
 
 }
