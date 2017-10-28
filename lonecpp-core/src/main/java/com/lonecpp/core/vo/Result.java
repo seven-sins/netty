@@ -1,15 +1,20 @@
 package com.lonecpp.core.vo;
 
+import com.lonecpp.core.common.Status;
+
 /**
  * @author seven sins
  * @date 2017年10月28日 下午2:31:35
  */
 public class Result {
-
 	/**
-	 * 响应代码
+	 * 请求ID
 	 */
-	private Integer code;
+	private Long id;
+	/**
+	 * 响应状态
+	 */
+	private Status status;
 	/**
 	 * 响应消息
 	 */
@@ -23,24 +28,24 @@ public class Result {
 		super();
 	}
 
-	public Result(Integer code, String message) {
+	public Result(Status status, String message) {
 		super();
-		this.code = code;
+		this.status = status;
 		this.message = message;
 	}
 	
-	public Result(Integer code, Object data) {
+	public Result(Status status, Object data) {
 		super();
-		this.code = code;
+		this.status = status;
 		this.data = data;
 	}
 
-	public Integer getCode() {
-		return code;
+	public Status getStatus() {
+		return status;
 	}
 
-	public void setCode(Integer code) {
-		this.code = code;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public String getMessage() {
@@ -57,6 +62,14 @@ public class Result {
 
 	public void setData(Object data) {
 		this.data = data;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

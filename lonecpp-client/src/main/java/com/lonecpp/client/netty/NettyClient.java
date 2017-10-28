@@ -44,7 +44,6 @@ public class NettyClient {
 				ch.pipeline().addLast(new StringDecoder());
 				ch.pipeline().addLast(new ClientHandler());
 				ch.pipeline().addLast(new StringEncoder());
-
 			}
 		});
 	}
@@ -52,7 +51,6 @@ public class NettyClient {
 	public static void main(String[] args) {
 		try {
 			ChannelFuture future = boostrap.connect(new InetSocketAddress("127.0.0.1", 7777)).sync();
-
 			User user = new User();
 			user.setAge(11);
 			user.setId(1);

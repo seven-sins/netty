@@ -7,26 +7,23 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.lonecpp.core.common.Status;
+
 /**
  * @author seven sins
  * @date 2017年10月28日 下午2:17:17
  */
 public class DefaultFuture {
-
-	private long id;
-	private volatile Response response;
-
 	public final static Map<Long, DefaultFuture> FUTURES = new ConcurrentHashMap<Long, DefaultFuture>();
-
-	private long timeout;
-
 	private final long start = System.currentTimeMillis();
-
+	private long id;
+	private volatile Result result;
+	private long timeout;
 	private volatile Lock lock = new ReentrantLock();
-
 	private volatile Condition condition = lock.newCondition();
 
 	public DefaultFuture() {
+		
 	}
 
 	public DefaultFuture(Request request) {
@@ -34,7 +31,7 @@ public class DefaultFuture {
 		FUTURES.put(id, this);
 	}
 
-	public Response get() {
+	public Result get() {
 		lock.lock();
 		while (!hasDone()) {
 			try {
@@ -46,10 +43,10 @@ public class DefaultFuture {
 			}
 		}
 
-		return response;
+		return result;
 	}
 
-	public Response get(long timeout) {
+	public Result get(long timeout) {
 		long start = System.currentTimeMillis();
 		lock.lock();
 		while (!hasDone()) {
@@ -65,28 +62,27 @@ public class DefaultFuture {
 			}
 		}
 
-		return response;
+		return result;
 	}
 
 	/**
 	 * 收到服务器响应
-	 * @param res
+	 * @param result
 	 */
-	public static void recive(Response res) {
-		// 找到res相对应的DefaultFuture
-		DefaultFuture future = FUTURES.remove(res.getId());
+	public static void recive(Result result) {
+		// 找到result相对应的DefaultFuture
+		DefaultFuture future = FUTURES.remove(result.getId());
 		if (future == null) {
 			return;
 		}
 		Lock lock = future.getLock();
 		lock.lock();
 		try {
-			future.setResponse(res);
+			future.setResult(result);
 			Condition condition = future.getCondition();
 			if (condition != null) {
 				condition.signal();
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -95,19 +91,19 @@ public class DefaultFuture {
 	}
 
 	private boolean hasDone() {
-		return response != null ? true : false;
+		return result != null ? true : false;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public Response getResponse() {
-		return response;
+	public Result getResult() {
+		return result;
 	}
 
-	public void setResponse(Response response) {
-		this.response = response;
+	public void setResult(Result result) {
+		this.result = result;
 	}
 
 	public Lock getLock() {
@@ -149,29 +145,21 @@ public class DefaultFuture {
 
 			while (true) {
 				for (long futureId : FUTURES.keySet()) {
-					DefaultFuture f = FUTURES.get(futureId);
-					if (f == null) {
+					DefaultFuture future = FUTURES.get(futureId);
+					if (future == null) {
 						FUTURES.remove(futureId);
 						continue;
 					}
-					if (f.getTimeout() > 0) {
-						if ((System.currentTimeMillis() - f.getStart()) > f.getTimeout()) {
-							Response res = new Response();
-							res.setContent(null);
-							res.setMsg("请求超时！");
-							// 响应异常处理
-							res.setStatus(1);
-							res.setId(f.getId());
-							DefaultFuture.recive(res);
+					if (future.getTimeout() > 0) {
+						if ((System.currentTimeMillis() - future.getStart()) > future.getTimeout()) {
+							Result result = new Result(Status.TIMEOUT, "请求超时");
+							result.setId(future.getId());
+							DefaultFuture.recive(result);
 						}
 					}
-
 				}
-
 			}
-
 		}
-
 	}
 
 	static {

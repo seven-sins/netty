@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lonecpp.core.common.Status;
 import com.lonecpp.core.vo.RequestParam;
 import com.lonecpp.core.vo.Result;
 
@@ -27,7 +28,7 @@ public class Media {
 			String command = request.getCommand();
 			BeanMethod beanMethod = beanMap.get(command);
 			if (beanMethod == null) {
-				return new Result(400, "获取目标控制器失败");
+				return new Result(Status.ERROR, "获取目标控制器失败");
 			}
 
 			Object bean = beanMethod.getBean();
@@ -36,6 +37,7 @@ public class Media {
 			Class<?> paramType = method.getParameterTypes()[0];
 			Object parameter = JSONObject.parseObject(JSONObject.toJSONString(request.getContent()), paramType);
 			Result result = (Result) method.invoke(bean, parameter);
+			result.setId(request.getId());
 			
 			return result;
 		} catch (Exception e) {
