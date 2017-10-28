@@ -2,7 +2,7 @@ package com.lonecpp.client.netty;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lonecpp.core.vo.DefaultFuture;
-import com.lonecpp.core.vo.Response;
+import com.lonecpp.core.vo.Result;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -24,8 +24,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 		// ctx.channel().attr(AttributeKey.valueOf("ChannelKey")).set(msg.toString());
 
 		System.out.println("客户端返回数据===" + msg.toString());
-		Response res = JSONObject.parseObject(msg.toString(), Response.class);
-		DefaultFuture.recive(res);
+		Result result = JSONObject.parseObject(msg.toString(), Result.class);
+		DefaultFuture.recive(result);
 		// ctx.channel().close();
 	}
 
