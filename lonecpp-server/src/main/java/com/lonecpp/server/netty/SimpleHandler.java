@@ -50,10 +50,10 @@ public class SimpleHandler extends ChannelInboundHandlerAdapter {
 			IdleStateEvent event = (IdleStateEvent) evt;
 			if (event != null) {
 				if (event.equals(IdleState.READER_IDLE)) {
+					// 读空闲
 					ctx.close();
 				} else if (event.equals(IdleState.WRITER_IDLE)) {
-
-				} else if (event.equals(IdleState.WRITER_IDLE)) {
+					// 写空闲
 					ctx.channel().writeAndFlush("ping\r\n");
 				}
 			}
