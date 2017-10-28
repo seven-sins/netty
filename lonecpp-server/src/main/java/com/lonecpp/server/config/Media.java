@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lonecpp.core.vo.RequestParam;
+import com.lonecpp.core.vo.Result;
 
 /**
  * @author seven sins
@@ -21,12 +22,12 @@ public class Media {
 		beanMap = new HashMap<String, BeanMethod>();
 	}
 
-	public static Object execute(RequestParam request) {
+	public static Result execute(RequestParam request) {
 		try {
 			String command = request.getCommand();
 			BeanMethod beanMethod = beanMap.get(command);
 			if (beanMethod == null) {
-				return null;
+				return new Result(400, "获取目标控制器失败");
 			}
 
 			Object bean = beanMethod.getBean();
@@ -34,7 +35,7 @@ public class Media {
 
 			Class<?> paramType = method.getParameterTypes()[0];
 			Object parameter = JSONObject.parseObject(JSONObject.toJSONString(request.getContent()), paramType);
-			Object result = method.invoke(bean, parameter);
+			Result result = (Result) method.invoke(bean, parameter);
 			
 			return result;
 		} catch (Exception e) {

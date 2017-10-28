@@ -3,6 +3,7 @@ package com.lonecpp.server.controller;
 import org.springframework.stereotype.Controller;
 
 import com.lonecpp.core.po.User;
+import com.lonecpp.core.vo.Result;
 import com.lonecpp.server.annotation.Action;
 
 /**
@@ -13,8 +14,8 @@ import com.lonecpp.server.annotation.Action;
 public class UserController {
 
 	@Action("userSave")
-	public Object save(User user){
+	public Result save(User user){
 		System.out.println(user.getName());
-		return user;
+		return new Result(200, user);
 	}
 }
