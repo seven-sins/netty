@@ -1,7 +1,5 @@
 package com.lonecpp.server.netty;
 
-import java.util.concurrent.TimeUnit;
-
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,18 +14,17 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.Delimiters;
-import io.netty.handler.codec.string.StringEncoder;
-import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpRequestDecoder;
+import io.netty.handler.codec.http.HttpResponseEncoder;
 
 /**
  * @author seven sins
  * @date 2017年10月28日 上午12:49:25
  */
 @Component
-public class NettyServer implements ApplicationListener<ContextRefreshedEvent>, Ordered {
-	static final Logger LOGGER = Logger.getLogger(NettyServer.class);
+public class HttpServer implements ApplicationListener<ContextRefreshedEvent>, Ordered {
+	static final Logger LOGGER = Logger.getLogger(HttpServer.class);
 	
 	public void start(){
 		EventLoopGroup parentGroup = new NioEventLoopGroup(3);
@@ -42,18 +39,16 @@ public class NettyServer implements ApplicationListener<ContextRefreshedEvent>, 
 				@Override
 				protected void initChannel(SocketChannel ch)
 						throws Exception {
-					ch.pipeline().addLast(new DelimiterBasedFrameDecoder(Integer.MAX_VALUE,Delimiters.lineDelimiter()[0]));
-					/**
-					 * 60 读超时
-					 * 20 写超时
-					 */
-					ch.pipeline().addLast(new IdleStateHandler(60, 20, 15, TimeUnit.SECONDS));
-					ch.pipeline().addLast(new SimpleHandler());
-					ch.pipeline().addLast(new StringEncoder());
+					ch.pipeline().addLast(new HttpRequestDecoder());
+					ch.pipeline().addLast(new HttpResponseEncoder());
+					// 1048576 最大内容长度
+					ch.pipeline().addLast(new HttpObjectAggregator(1048576));
+					
+					ch.pipeline().addLast(new HttpServerHandler());
 				}
 			});
 			
-			ChannelFuture future = serverBootstrap.bind(7777).sync();
+			ChannelFuture future = serverBootstrap.bind(8888).sync();
 			future.channel().closeFuture().sync();
 		}catch(Exception e){
 			LOGGER.error("=============netty服务启动出错=============", e);
