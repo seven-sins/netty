@@ -7,6 +7,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.log4j.Logger;
+
 import com.lonecpp.core.common.Status;
 
 /**
@@ -14,14 +16,15 @@ import com.lonecpp.core.common.Status;
  * @date 2017年10月28日 下午2:17:17
  */
 public class DefaultFuture {
-	public final static Map<Long, DefaultFuture> FUTURES = new ConcurrentHashMap<Long, DefaultFuture>();
-	private final long start = System.currentTimeMillis();
-	private long id;
-	private volatile Result result;
-	private long timeout;
-	private volatile Lock lock = new ReentrantLock();
-	private volatile Condition condition = lock.newCondition();
-
+	static final Logger LOG = Logger.getLogger(DefaultFuture.class);
+	static final Map<Long, DefaultFuture> FUTURES = new ConcurrentHashMap<Long, DefaultFuture>();
+	final long start = System.currentTimeMillis();
+	long id;
+	volatile Result result;
+	long timeout;
+	volatile Lock lock = new ReentrantLock();
+	volatile Condition condition = lock.newCondition();
+	
 	public DefaultFuture() {
 		
 	}
@@ -56,7 +59,7 @@ public class DefaultFuture {
 					break;
 				}
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				LOG.error(e);
 			} finally {
 				lock.unlock();
 			}
@@ -84,7 +87,7 @@ public class DefaultFuture {
 				condition.signal();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 		} finally {
 			lock.unlock();
 		}
@@ -168,5 +171,4 @@ public class DefaultFuture {
 		timeOutThread.start();
 
 	}
-
 }
