@@ -1,7 +1,5 @@
 package com.lonecpp.core.vo;
 
-import com.lonecpp.core.common.Status;
-
 /**
  * @author seven sins
  * @date 2017年10月28日 下午2:31:35
@@ -14,7 +12,7 @@ public class Result {
 	/**
 	 * 响应状态
 	 */
-	private Status status;
+	private Integer status;
 	/**
 	 * 响应消息
 	 */
@@ -28,23 +26,23 @@ public class Result {
 		super();
 	}
 
-	public Result(Status status, String message) {
+	public Result(Integer status, String message) {
 		super();
 		this.status = status;
 		this.message = message;
 	}
 	
-	public Result(Status status, Object data) {
+	public Result(Integer status, Object data) {
 		super();
 		this.status = status;
 		this.data = data;
 	}
 
-	public Status getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

@@ -1,5 +1,13 @@
 package com.lonecpp.client.netty;
 
+import java.net.InetSocketAddress;
+
+import org.apache.log4j.Logger;
+
+import com.alibaba.fastjson.JSONObject;
+import com.lonecpp.core.po.User;
+import com.lonecpp.core.vo.Request;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelFuture;
@@ -13,14 +21,6 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.AttributeKey;
-
-import java.net.InetSocketAddress;
-
-import org.apache.log4j.Logger;
-
-import com.alibaba.fastjson.JSONObject;
-import com.lonecpp.core.po.User;
-import com.lonecpp.core.vo.Request;
 
 /**
  * @author seven sins
@@ -51,6 +51,7 @@ public class NettyClient {
 	public static void main(String[] args) {
 		try {
 			ChannelFuture future = boostrap.connect(new InetSocketAddress("127.0.0.1", 7777)).sync();
+			//
 			User user = new User();
 			user.setAge(11);
 			user.setId(1);

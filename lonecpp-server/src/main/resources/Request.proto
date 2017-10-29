@@ -1,0 +1,8 @@
+option java_package = "com.lonecpp.core.pb";
+option java_outer_classname = "RequestProbuf";
+
+message PbRequest {
+	required int32 id = 1;
+	required string command = 2;
+	required bytes body = 3;
+}

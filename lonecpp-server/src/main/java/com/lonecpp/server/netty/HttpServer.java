@@ -20,8 +20,8 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
 /**
  * @author seven sins
  * @date 2017年10月28日 上午12:49:25
+ * @Component
  */
-// @Component
 public class HttpServer implements ApplicationListener<ContextRefreshedEvent>, Ordered {
 	static final Logger LOGGER = Logger.getLogger(HttpServer.class);
 	

@@ -18,6 +18,17 @@ public class RequestParam {
 	 */
 	private long id;
 
+	public RequestParam() {
+		super();
+	}
+	
+	public RequestParam(long id, String command, Object content) {
+		super();
+		this.command = command;
+		this.content = content;
+		this.id = id;
+	}
+
 	public void setId(long id) {
 		this.id = id;
 	}

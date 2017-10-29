@@ -25,7 +25,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 		System.out.println("客户端返回数据===" + msg.toString());
 		Result result = JSONObject.parseObject(msg.toString(), Result.class);
 		DefaultFuture.recive(result);
-		// ctx.channel().close();
 	}
 
 }
