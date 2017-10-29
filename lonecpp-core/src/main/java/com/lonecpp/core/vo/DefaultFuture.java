@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lonecpp.core.common.Status;
 
 /**
@@ -73,6 +74,10 @@ public class DefaultFuture {
 	 * @param result
 	 */
 	public static void recive(Result result) {
+		if(!Status.SUCCESS.equals(result.getStatus())) {
+			LOG.error(JSONObject.toJSONString(result));
+			return;
+		}
 		// 找到result相对应的DefaultFuture
 		DefaultFuture future = FUTURES.remove(result.getId());
 		if (future == null) {

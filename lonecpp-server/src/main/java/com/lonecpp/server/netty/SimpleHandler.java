@@ -35,7 +35,8 @@ public class SimpleHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		super.exceptionCaught(ctx, cause);
+		// 客户端退出
+		ctx.close();
 	}
 
 	@Override

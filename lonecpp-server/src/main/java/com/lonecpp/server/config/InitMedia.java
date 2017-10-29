@@ -21,7 +21,7 @@ public class InitMedia implements ApplicationListener<ContextRefreshedEvent>, Or
 
 	@Override
 	public int getOrder() {
-		return 998;
+		return -1;
 	}
 
 	@Override

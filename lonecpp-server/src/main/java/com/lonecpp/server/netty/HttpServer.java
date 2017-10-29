@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.Ordered;
-import org.springframework.stereotype.Component;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -22,7 +21,7 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
  * @author seven sins
  * @date 2017年10月28日 上午12:49:25
  */
-@Component
+// @Component
 public class HttpServer implements ApplicationListener<ContextRefreshedEvent>, Ordered {
 	static final Logger LOGGER = Logger.getLogger(HttpServer.class);
 	

@@ -21,8 +21,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 			ctx.channel().writeAndFlush("ping\r\n");
 			return;
 		}
-		
-		// ctx.channel().attr(AttributeKey.valueOf("ChannelKey")).set(msg.toString());
 
 		System.out.println("客户端返回数据===" + msg.toString());
 		Result result = JSONObject.parseObject(msg.toString(), Result.class);
