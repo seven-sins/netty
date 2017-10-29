@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import com.lonecpp.server.annotation.Action;
 
 /**
+ * 初始扫描并存储controller
  * @author seven sins
  * @date 2017年10月28日 上午1:11:58
  */
@@ -20,7 +21,7 @@ public class InitMedia implements ApplicationListener<ContextRefreshedEvent>, Or
 
 	@Override
 	public int getOrder() {
-		return -1;
+		return 998;
 	}
 
 	@Override
