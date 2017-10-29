@@ -44,7 +44,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 
 	private void write(ChannelHandlerContext ctx, Result result) {
 		DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK,
-				Unpooled.wrappedBuffer(JSONObject.toJSONString(result).getBytes(Charset.defaultCharset())));
+				Unpooled.wrappedBuffer(JSONObject.toJSONString(result).getBytes(Charset.forName("UTF-8"))));
 		// 设置headers
 		response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
 		response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());

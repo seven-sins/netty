@@ -17,7 +17,7 @@ import io.netty.handler.timeout.IdleStateEvent;
  * @author seven sins
  * @date 2017年10月28日 下午2:15:49
  */
-public class SimpleHandler extends ChannelInboundHandlerAdapter {
+public class TcpHandler extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -35,7 +35,8 @@ public class SimpleHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		super.exceptionCaught(ctx, cause);
+		// 客户端退出
+		ctx.close();
 	}
 
 	@Override

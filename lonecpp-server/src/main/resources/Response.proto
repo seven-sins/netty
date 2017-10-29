@@ -1,0 +1,9 @@
+option java_package = "com.lonecpp.core.pb";
+option java_outer_classname = "ResponseProbuf";
+
+message PbResponse {
+	required int32 id = 1;
+	optional int32 status = 2;
+	optional bytes data = 3;
+	optional string message = 4;
+}

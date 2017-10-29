@@ -18,7 +18,7 @@ public class ServerMain implements ApplicationListener<ContextRefreshedEvent>, O
 	@Override
 	public int getOrder() {
 		// 启动顺序(数值越小越先执行)
-		return 999;
+		return 1;
 	}
 
 	@Override

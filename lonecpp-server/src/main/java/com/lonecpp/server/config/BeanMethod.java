@@ -7,7 +7,9 @@ import java.lang.reflect.Method;
  * @date 2017年10月28日 上午1:12:14
  */
 public class BeanMethod {
+	
 	private Object bean;
+	
 	private Method method;
 
 	public Object getBean() {

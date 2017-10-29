@@ -1,0 +1,8 @@
+option java_package = "com.lonecpp.core.pb";
+option java_outer_classname = "UserProbuf";
+
+message PbUser {
+  required int32 id = 1;
+  required string name = 2;
+  optional string phone = 3;
+}
